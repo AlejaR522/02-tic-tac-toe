@@ -2,6 +2,7 @@ import { useState } from 'react'
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import './App.css'
+import confetti from 'canvas-confetti'
 
 const TURNS = {
     X: 'x',
@@ -48,11 +49,11 @@ function App() {
             const [a, b, c] = combo
             if(
                 boardToCheck[a] &&
-                boardToCheck[a] == boardToCheck [b] &&
-                boardToCheck [a] == boardToCheck [c]
+                boardToCheck[a] === boardToCheck[b] &&
+                boardToCheck[a] === boardToCheck[c]
 
             ) {
-                return boardToCheck [a]
+                return boardToCheck[a]
             }
         }
         // si no hay ganador
@@ -63,6 +64,14 @@ function App() {
         setTurn(TURNS.X)
         setWinner(null)
         // Depende mucho de lo que busques hacer, de la logica del funcionamiento del juego
+    }
+
+    const checkEndGame = (newBoard) => {
+        //revisamos si hay empate
+        // si no hay mas espacios vacios
+        //en el tablero
+
+        return newBoard.every((square) => square !== null)
     }
 
     const updateBoard = (index) => {
@@ -80,7 +89,10 @@ function App() {
         //revisamos si hay ganador
         const newWinner = checkWinner(newBoard)
         if (newWinner){
+            confetti()
             setWinner(newWinner)
+            } else if (checkEndGame (newBoard)){
+                setWinner(false)//Empate
             
         }
     }
@@ -88,16 +100,17 @@ function App() {
     return (
         <main className='board'>
             <h1>Tic tac toe</h1>
+            <button onClick={resetGame}>Reset del juego</button>
             <section className= "game">
                 {
-                    board.map((_, index) =>{
+                    board.map((square, index) =>{
                         return (
                             <Square //es una lista(es cada una de las posiciones en cada cuadro), por ello, debe tener valor unico "key"
                                 key={index}
                                 index={index}
                                 updateBoard={updateBoard}
                             >
-                                {board[index]}
+                                {square}
                             </Square>
                         )             
                     })
@@ -123,6 +136,7 @@ function App() {
                             ? 'Empate'
                             : 'Ganó'
                             }
+
                         </h2> 
                         <header className="win">
                             {winner && <Square>{winner}</Square>}
