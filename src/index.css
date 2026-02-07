@@ -87,7 +87,7 @@ body {
 }
 
 .winner {
-  position: absolute;
+  position: fixed;
   width: 100vw;
   height: 100vh;
   top: 0;
@@ -95,19 +95,27 @@ body {
   display: grid;
   place-items: center;
   background-color: rgba(0, 0, 0, 0.7);
+  z-index: 10;
 }
 
 .winner .text {
   background: #111;
-  height: 300px;
-  width: 320px;
+  width: 280px;
+  min-height: 260px;
   border: 2px solid #eee;
   border-radius: 10px;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  gap: 20px;
+  gap: 18px;
+  padding: 20px;
+  text-align: center;
+}
+
+.winner h2 {
+  margin: 0;
+  color: #eee;
 }
 
 .winner .win {
@@ -116,6 +124,24 @@ body {
   border-radius: 10px;
   display: flex;
   gap: 15px;
+}
+
+.winner button {
+  margin: 0;
+  width: auto;
+  padding: 8px 14px;
+  background: transparent;
+  border: 2px solid #eee;
+  color: #eee;
+  border-radius: 5px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.winner button:hover {
+  background: #eee;
+  color: #222;
 }
 
 .square {
