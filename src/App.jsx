@@ -11,8 +11,15 @@ import { checkWinner, checkEndGame } from './logic/board'
 import { WinnerModal } from './assets/components/WinnerModal'
 
 function App() {
-    const [board, setBoard]=  useState( Array(9).fill(null)
-        )
+    console.log('render')
+    const boardFromStorge = window.localStorage.getItem('board')
+    console.log('.|.')
+    const [board, setBoard]=  useState (() => {
+        console.log('inicializar estado del board')
+        const boardFromStorge = window.localStorage.getItem('board')
+        if (boardFromStorge) return JSON.psrse(boardFromStorge)
+        return Array(9).fill(null)
+       } )
 
     const [turn, setTurn] = useState(TURNS.X)
 
@@ -39,6 +46,10 @@ function App() {
         const newTurn = turn == TURNS.X ? TURNS.O : TURNS.X
         setTurn(newTurn)
         //revisamos si hay ganador
+
+        //guardar aquí la partida
+        window.localStorage.setItem('board', JSON.stringify (newBoard))
+        window.localStorage.setItem('turn', turn)
         const newWinner = checkWinner(newBoard)
         if (newWinner){
             confetti()
